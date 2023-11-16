@@ -69,3 +69,9 @@
   background-color: #82cbf8;
   margin-bottom: 10px;
 }
+
+.footer{
+  display:flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
