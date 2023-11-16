@@ -5,10 +5,6 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const cors = require("cors");
 
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 const data = fs.readFileSync("./database.json");
 const conf = JSON.parse(data);
 const db = mysql.createConnection({
@@ -19,6 +15,12 @@ const db = mysql.createConnection({
   database: conf.database,
 });
 db.connect();
+const multer = require("multer");
+const upload = multer({ dest: "./upload" });
+
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/employees", (req, res) => {
   const sqlGet = "SELECT * FROM EMPLOYEE";
