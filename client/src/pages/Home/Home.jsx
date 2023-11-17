@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "./Home.css";
 import { toast } from "react-toastify";
@@ -55,7 +55,7 @@ export default function Home() {
                 <td>{item.branch}</td>
                 <td>{item.phone}</td>
                 <td>
-                  <Link to={`/update/${item.id}`}>
+                  <Link to={`/update/${item.id}`} state={{ item: item }}>
                     <button className="btn btn-edit">Edit</button>
                   </Link>
                   <button

@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import NotFound from "./pages/NotFound";
-import AddEmployee from "./pages/AddEmployee";
-import EditEmployee from "./pages/EditEmployee";
+import AddEmployee from "./pages/Add/AddEmployee";
+import UpdateEmployee from "./pages/Update/UpdateEmployee";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: "/", element: <Home /> },
       { path: "/add", element: <AddEmployee /> },
-      { path: "/edit/:id", element: <EditEmployee /> },
+      { path: "/update/:id", element: <UpdateEmployee /> },
     ],
   },
 ]);

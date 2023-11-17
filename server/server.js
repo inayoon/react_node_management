@@ -30,6 +30,30 @@ app.get("/employees", (req, res) => {
   });
 });
 
+app.get("/employees/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlGet = "SELECT * FROM EMPLOYEE WHERE id = ?";
+  db.query(sqlGet, id, (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+    res.send(result);
+  });
+});
+
+app.put("/employees/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, email, contact } = req.body;
+  const sqlUpdate =
+    "UPDATE contact_db SET name = ?, email = ?, contact = ? WHERE id = ?";
+  db.query(sqlUpdate, [name, email, contact, id], (error, result) => {
+    if (error) {
+      console.log(error);
+    }
+    res.send(result);
+  });
+});
+
 app.get("/", (req, res) => {
   res.json("Hello world, this is backend server");
 });
