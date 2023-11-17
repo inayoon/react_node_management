@@ -1,9 +1,11 @@
-const express = require("express");
-const fs = require("fs");
+import express from "express";
+import mysql from "mysql2";
+import cors from "cors";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
 const app = express();
-const bodyParser = require("body-parser");
-const mysql = require("mysql2");
-const cors = require("cors");
 
 const data = fs.readFileSync("./database.json");
 const conf = JSON.parse(data);
@@ -15,12 +17,25 @@ const db = mysql.createConnection({
   database: conf.database,
 });
 db.connect();
-const multer = require("multer");
-const upload = multer({ dest: "./upload" });
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+});
 
 app.get("/employees", (req, res) => {
   const sqlGet = "SELECT * FROM EMPLOYEE";
@@ -41,17 +56,31 @@ app.get("/employees/:id", (req, res) => {
   });
 });
 
-app.put("/employees/:id", (req, res) => {
+// app.post("/update", upload.single("image"), (req, res) => {
+//   const image = req.file.filename;
+//   const sqlUpdate = "UPDATE EMPLOYEE SET image =?";
+//   db.query(sqlUpdate, [image], (err, result) => {
+//     if (err) return res.json({ Message: "Error updating" });
+//     return res.json({ Status: "Success" });
+//   });
+// });
+
+app.put("/update/:id", upload.single("image"), (req, res) => {
   const { id } = req.params;
-  const { name, email, contact } = req.body;
+  const { name, profession, city, phone, branch } = req.body;
+  const image = req.file ? req.file.filename : "";
   const sqlUpdate =
-    "UPDATE contact_db SET name = ?, email = ?, contact = ? WHERE id = ?";
-  db.query(sqlUpdate, [name, email, contact, id], (error, result) => {
-    if (error) {
-      console.log(error);
+    "UPDATE EMPLOYEE SET name = ?, profession = ?, city = ?, phone = ?,branch = ?,image = ? WHERE id = ?";
+  db.query(
+    sqlUpdate,
+    [name, profession, city, phone, branch, image, id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      }
+      res.send(result);
     }
-    res.send(result);
-  });
+  );
 });
 
 app.get("/", (req, res) => {
