@@ -5,6 +5,10 @@ form{
 label{
 
 }
+.preview-image{
+  width:300px;
+  height:300px;
+}
 input{
   width: 70%;
 

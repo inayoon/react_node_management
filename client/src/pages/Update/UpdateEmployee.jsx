@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./UpdateEmployee.css";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -16,10 +16,17 @@ const initialState = {
 
 export default function UpdateEmployee() {
   const [state, setState] = useState(initialState);
+  const [files, setFiles] = useState(null);
   const { id } = useParams();
+
   useEffect(() => {
     axios.get(`http://localhost:5000/employees/${id}`).then((response) => {
       setState({ ...response.data[0] });
+      setFiles(
+        response.data[0].image
+          ? `http://localhost:5000/images/${response.data[0].image}`
+          : null
+      );
     });
   }, [id]);
 
@@ -37,7 +44,11 @@ export default function UpdateEmployee() {
       console.log(res.data);
       if (res.data.Status === "Success") {
         console.log("Succeeded!");
-        console.log(state.file);
+        setFiles(
+          res.data.ImagePath
+            ? `http://localhost:5000/${res.data.ImagePath}`
+            : null
+        );
       } else {
         console.log("Failed!", res.data.Error);
       }
@@ -55,11 +66,25 @@ export default function UpdateEmployee() {
     const file = e.target.files[0];
     const fileName = e.target.value;
     setState({ ...state, image: file, fileName: fileName });
+    setFiles(
+      file
+        ? URL.createObjectURL(file)
+        : `http://localhost:5000/images/${state.image}`
+    );
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <img
+          className="preview-image"
+          src={
+            files ||
+            "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo-available_87543-11093.jpg?w=826"
+          }
+          alt="Preview"
+        />
+
         <label htmlFor="image">Profile Image</label>
         <input
           type="file"

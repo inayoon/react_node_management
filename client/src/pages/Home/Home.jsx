@@ -48,11 +48,19 @@ export default function Home() {
               <tr key={item.id}>
                 <th scope="row">{uniqueIndex}</th>
                 <td>
-                  <img
-                    src={`http://localhost:5000/images/` + item.image}
-                    alt="avatar"
-                    className="avatar"
-                  />
+                  {item.image ? (
+                    <img
+                      src={`http://localhost:5000/images/` + item.image}
+                      alt="avatar"
+                      className="avatar"
+                    />
+                  ) : (
+                    <img
+                      src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo-available_87543-11093.jpg?w=826"
+                      alt="avatar"
+                      className="avatar"
+                    />
+                  )}
                 </td>
                 <td>{item.name}</td>
                 <td>{item.city}</td>
