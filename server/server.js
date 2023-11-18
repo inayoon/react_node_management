@@ -20,6 +20,7 @@ db.connect();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -56,19 +57,26 @@ app.get("/employees/:id", (req, res) => {
   });
 });
 
-// app.post("/update", upload.single("image"), (req, res) => {
-//   const image = req.file.filename;
-//   const sqlUpdate = "UPDATE EMPLOYEE SET image =?";
-//   db.query(sqlUpdate, [image], (err, result) => {
-//     if (err) return res.json({ Message: "Error updating" });
-//     return res.json({ Status: "Success" });
-//   });
-// });
+app.post("/employees", upload.single("image"), (req, res) => {
+  const { name, profession, city, phone, branch } = req.body;
+  const image = req.file.filename;
+  const sqlInsert = "INSERT INTO EMPLOYEE VALUES  (null, ?, ?, ?, ?, ?,?)";
+  // let img = "http://localhost:5000/image/" + image;
+  db.query(
+    sqlInsert,
+    [name, profession, city, phone, branch, image],
+    (err, result) => {
+      if (err) return res.json({ Message: "Error updating" });
+      return res.json({ Status: "Success" });
+    }
+  );
+});
 
 app.put("/update/:id", upload.single("image"), (req, res) => {
   const { id } = req.params;
   const { name, profession, city, phone, branch } = req.body;
   const image = req.file ? req.file.filename : "";
+  // let img = "http://localhost:5000/image/" + image;
   const sqlUpdate =
     "UPDATE EMPLOYEE SET name = ?, profession = ?, city = ?, phone = ?,branch = ?,image = ? WHERE id = ?";
   db.query(
@@ -77,8 +85,9 @@ app.put("/update/:id", upload.single("image"), (req, res) => {
     (error, result) => {
       if (error) {
         console.log(error);
+        res.json({ Status: "Failed", Error: error.message });
       }
-      res.send(result);
+      res.json({ Status: "Success" });
     }
   );
 });

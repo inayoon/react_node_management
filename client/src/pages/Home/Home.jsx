@@ -48,7 +48,11 @@ export default function Home() {
               <tr key={item.id}>
                 <th scope="row">{uniqueIndex}</th>
                 <td>
-                  <img src={item.image} alt="avatar" className="avatar" />
+                  <img
+                    src={`http://localhost:5000/images/` + item.image}
+                    alt="avatar"
+                    className="avatar"
+                  />
                 </td>
                 <td>{item.name}</td>
                 <td>{item.city}</td>

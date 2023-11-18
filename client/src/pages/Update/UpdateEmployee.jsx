@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./UpdateEmployee.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const initialState = {
   name: "",
@@ -15,9 +16,6 @@ const initialState = {
 
 export default function UpdateEmployee() {
   const [state, setState] = useState(initialState);
-
-  // const { item } = location.state;
-  // const { name } = item;
   const { id } = useParams();
   useEffect(() => {
     axios.get(`http://localhost:5000/employees/${id}`).then((response) => {
@@ -34,18 +32,19 @@ export default function UpdateEmployee() {
     formData.append("city", state.city);
     formData.append("phone", state.phone);
     formData.append("branch", state.branch);
-    console.log(formData.toString());
 
     axios.put(`http://localhost:5000/update/${id}`, formData).then((res) => {
       console.log(res.data);
       if (res.data.Status === "Success") {
         console.log("Succeeded!");
+        console.log(state.file);
       } else {
-        console.log("Failed!");
+        console.log("Failed!", res.data.Error);
       }
     });
   };
-  const handleChange = (e) => {
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setState((prev) => ({
       ...prev,
@@ -55,7 +54,7 @@ export default function UpdateEmployee() {
   const handleFile = (e) => {
     const file = e.target.files[0];
     const fileName = e.target.value;
-    setState({ ...state, image: file, fileName });
+    setState({ ...state, image: file, fileName: fileName });
   };
 
   return (
@@ -67,36 +66,40 @@ export default function UpdateEmployee() {
           id="image"
           name="file"
           file={state.image}
-          value={state.fileName}
+          value={state.fileName || ""}
           onChange={handleFile}
         />
         <label htmlFor="name">Name</label>
         <input
           type="text"
           id="name"
-          value={state.name}
-          onChange={handleChange}
+          name="name"
+          value={state.name || ""}
+          onChange={handleInputChange}
         />
         <label htmlFor="city">City</label>
         <input
           type="text"
           id="city"
-          value={state.city}
-          onChange={handleChange}
+          name="city"
+          value={state.city || ""}
+          onChange={handleInputChange}
         />
         <label htmlFor="branch">Branch</label>
         <input
           type="text"
           id="branch"
-          value={state.branch}
-          onChange={handleChange}
+          name="branch"
+          value={state.branch || ""}
+          onChange={handleInputChange}
         />
         <label htmlFor="phone">Contact</label>
         <input
           type="text"
           id="phone"
-          value={state.phone}
-          onChange={handleChange}
+          name="phone"
+          value={state.phone || ""}
+          onChange={handleInputChange}
         />
         <input type="submit" value={id ? "Update" : "Error"} />
       </form>
