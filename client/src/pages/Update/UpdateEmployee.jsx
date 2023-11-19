@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./UpdateEmployee.css";
 import axios from "axios";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -15,6 +15,9 @@ const initialState = {
 };
 
 export default function UpdateEmployee() {
+  const location = useLocation();
+  let { item, handleUpdate } = location.state;
+
   const [state, setState] = useState(initialState);
   const [files, setFiles] = useState(null);
   const { id } = useParams();
@@ -44,6 +47,7 @@ export default function UpdateEmployee() {
       console.log(res.data);
       if (res.data.Status === "Success") {
         console.log("Succeeded!");
+        handleUpdate(res.data.UpdateData);
         setFiles(
           res.data.ImagePath
             ? `http://localhost:5000/${res.data.ImagePath}`
@@ -61,6 +65,7 @@ export default function UpdateEmployee() {
       ...prev,
       [name]: value,
     }));
+    // handleUpdate(state);
   };
   const handleFile = (e) => {
     const file = e.target.files[0];

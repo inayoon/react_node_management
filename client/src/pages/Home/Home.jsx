@@ -8,6 +8,11 @@ import axios from "axios";
 export default function Home() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const handleUpdate = (updated) => {
+    // how to code?
+  };
+
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
@@ -21,7 +26,7 @@ export default function Home() {
   };
   useEffect(() => {
     loadData();
-  }, []);
+  }, [data]);
   const deleteContact = () => {};
   return (
     <div style={{ marginTop: "150px" }}>
@@ -67,7 +72,10 @@ export default function Home() {
                 <td>{item.branch}</td>
                 <td>{item.phone}</td>
                 <td>
-                  <Link to={`/update/${item.id}`} state={{ item: item }}>
+                  <Link
+                    to={`/update/${item.id}`}
+                    state={{ item, handleUpdate }}
+                  >
                     <button className="btn btn-edit">Edit</button>
                   </Link>
                   <button
