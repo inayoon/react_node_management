@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import "./Home.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleUpdate = (updated) => {
-    // how to code?
+  const handleButtonClick = (id) => {
+    // 버튼 클릭 시 상세 페이지로 이동
+    navigate(`/update/${id}`);
+  };
+
+  const handleUpdateEmployee = (updatedEmployee) => {
+    // 임직원 정보 업데이트
+    const updatedEmployees = data.map((employee) =>
+      employee.id === updatedEmployee.id ? updatedEmployee : employee
+    );
+
+    setData(updatedEmployees);
   };
 
   const recordsPerPage = 10;
@@ -72,16 +82,17 @@ export default function Home() {
                 <td>{item.branch}</td>
                 <td>{item.phone}</td>
                 <td>
-                  <Link
-                    to={`/update/${item.id}`}
-                    state={{ item, handleUpdate }}
+                  {/* Link안쓰고 이렇게 바꿔서 props 전달되나 확인해.. */}
+                  <button
+                    onClick={() => handleButtonClick(item.id)}
+                    className="btn btn-edit"
                   >
-                    <button className="btn btn-edit">Edit</button>
-                  </Link>
+                    Edit
+                  </button>
+
                   <button
                     className="btn btn-delete"
                     onClick={() => deleteContact(item.id)}
-                    dd
                   >
                     Delete
                   </button>

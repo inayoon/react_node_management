@@ -16,7 +16,7 @@ const initialState = {
 
 export default function UpdateEmployee() {
   const location = useLocation();
-  let { item, handleUpdate } = location.state;
+  // let { item, handleUpdate } = location.state;
 
   const [state, setState] = useState(initialState);
   const [files, setFiles] = useState(null);
@@ -47,7 +47,7 @@ export default function UpdateEmployee() {
       console.log(res.data);
       if (res.data.Status === "Success") {
         console.log("Succeeded!");
-        handleUpdate(res.data.UpdateData);
+        // handleUpdate(res.data.UpdateData);
         setFiles(
           res.data.ImagePath
             ? `http://localhost:5000/${res.data.ImagePath}`

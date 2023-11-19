@@ -1,16 +1,23 @@
-import { Outlet } from "react-router-dom";
-import React from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Header from "./components/Header";
+import Home from "./pages/Home/Home";
+import AddEmployee from "./pages/Update/UpdateEmployee";
 
 function App() {
   return (
-    <>
-      <Header user="Ina Yoon" />
-      <Outlet />
-    </>
+    <BrowserRouter>
+      <Header />
+      <div className="App">
+        <ToastContainer position="top-center" />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/update/:id" element={<AddEmployee />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
