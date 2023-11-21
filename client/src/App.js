@@ -9,7 +9,7 @@ import AddEmployee from "./pages/Update/UpdateEmployee";
 function App() {
   return (
     <BrowserRouter>
-      <Header />
+      <Header user="Ina Yoon" />
       <div className="App">
         <ToastContainer position="top-center" />
         <Routes>
