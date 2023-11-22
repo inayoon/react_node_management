@@ -23,20 +23,15 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: function (req, file, cb) {
     cb(null, "public/images");
   },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-    );
+  filename: function (req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`);
   },
 });
 
-const upload = multer({
-  storage: storage,
-});
+const upload = multer({ storage });
 
 app.get("/employees", (req, res) => {
   const sqlGet = "SELECT * FROM EMPLOYEE";
@@ -75,10 +70,10 @@ app.post("/employees", upload.single("image"), (req, res) => {
 app.put("/update/:id", upload.single("image"), (req, res) => {
   const { id } = req.params;
   const { name, profession, city, phone, branch } = req.body;
-  const image = req.file ? req.file.filename : "";
-  // let img = "http://localhost:5000/image/" + image;
+  const image = req.file ? req.file.filename : req.body.image || ""; // 이미지가 전송되지 않은 경우 이전 이미지 유지
+
   const sqlUpdate =
-    "UPDATE EMPLOYEE SET name = ?, profession = ?, city = ?, phone = ?,branch = ?,image = ? WHERE id = ?";
+    "UPDATE EMPLOYEE SET name = ?, profession = ?, city = ?, phone = ?, branch = ?, image = ? WHERE id = ?";
   db.query(
     sqlUpdate,
     [name, profession, city, phone, branch, image, id],
@@ -87,7 +82,7 @@ app.put("/update/:id", upload.single("image"), (req, res) => {
         console.log(error);
         res.json({ Status: "Failed", Error: error.message });
       }
-      res.json({ Status: "Success" });
+      res.json({ Status: "Success", ImagePath: image });
     }
   );
 });

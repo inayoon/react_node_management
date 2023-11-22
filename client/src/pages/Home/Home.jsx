@@ -1,28 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "./Home.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function Home() {
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const handleButtonClick = (id) => {
-    // 버튼 클릭 시 상세 페이지로 이동
-    navigate(`/update/${id}`);
-  };
-
-  const handleUpdateEmployee = (updatedEmployee) => {
-    // 임직원 정보 업데이트
-    const updatedEmployees = data.map((employee) =>
-      employee.id === updatedEmployee.id ? updatedEmployee : employee
-    );
-
-    setData(updatedEmployees);
-  };
-
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
@@ -34,9 +19,10 @@ export default function Home() {
     const response = await axios.get("http://localhost:5000/employees");
     setData(response.data);
   };
+
   useEffect(() => {
     loadData();
-  }, [data]);
+  }, []);
   const deleteContact = () => {};
   return (
     <div style={{ marginTop: "150px" }}>
@@ -63,36 +49,28 @@ export default function Home() {
               <tr key={item.id}>
                 <th scope="row">{uniqueIndex}</th>
                 <td>
-                  {item.image ? (
-                    <img
-                      src={`http://localhost:5000/images/` + item.image}
-                      alt="avatar"
-                      className="avatar"
-                    />
-                  ) : (
-                    <img
-                      src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo-available_87543-11093.jpg?w=826"
-                      alt="avatar"
-                      className="avatar"
-                    />
-                  )}
+                  <img
+                    src={
+                      item.image
+                        ? `http://localhost:5000/images/` + item.image
+                        : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo-available_87543-11093.jpg?w=826"
+                    }
+                    alt="avatar"
+                    className="avatar"
+                  />
                 </td>
                 <td>{item.name}</td>
                 <td>{item.city}</td>
                 <td>{item.branch}</td>
                 <td>{item.phone}</td>
                 <td>
-                  {/* Link안쓰고 이렇게 바꿔서 props 전달되나 확인해.. */}
-                  <button
-                    onClick={() => handleButtonClick(item.id)}
-                    className="btn btn-edit"
-                  >
-                    Edit
-                  </button>
-
+                  <Link to={`/update/${item.id}`} state={{ item: item }}>
+                    <button className="btn btn-edit">Edit</button>
+                  </Link>
                   <button
                     className="btn btn-delete"
                     onClick={() => deleteContact(item.id)}
+                    dd
                   >
                     Delete
                   </button>

@@ -5,8 +5,18 @@ import "./App.css";
 import Header from "./components/Header";
 import Home from "./pages/Home/Home";
 import AddEmployee from "./pages/Update/UpdateEmployee";
+import { useState } from "react";
+import UpdateEmployee from "./pages/Update/UpdateEmployee";
 
 function App() {
+  // const [data, setData] = useState([]);
+  // const handleUpdateEmployee = (updatedEmployee) => {
+  //   const updatedEmployees = data.map((employee) =>
+  //     employee.id === updatedEmployee.id ? updatedEmployee : employee
+  //   );
+  //   setData(updatedEmployees);
+  // };
+
   return (
     <BrowserRouter>
       <Header user="Ina Yoon" />
@@ -14,7 +24,7 @@ function App() {
         <ToastContainer position="top-center" />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/update/:id" element={<AddEmployee />} />
+          <Route path="/update/:id" element={<UpdateEmployee />} />
         </Routes>
       </div>
     </BrowserRouter>

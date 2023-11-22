@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./UpdateEmployee.css";
 import axios from "axios";
-import { Navigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -15,16 +15,14 @@ const initialState = {
 };
 
 export default function UpdateEmployee() {
-  const location = useLocation();
-  // let { item, handleUpdate } = location.state;
-
   const [state, setState] = useState(initialState);
   const [files, setFiles] = useState(null);
   const { id } = useParams();
-
+  const navigate = useNavigate();
+  console.log(state);
   useEffect(() => {
     axios.get(`http://localhost:5000/employees/${id}`).then((response) => {
-      setState({ ...response.data[0] });
+      setState(response.data[0]);
       setFiles(
         response.data[0].image
           ? `http://localhost:5000/images/${response.data[0].image}`
@@ -33,49 +31,55 @@ export default function UpdateEmployee() {
     });
   }, [id]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", state.image);
-    formData.append("name", state.name);
-    formData.append("profession", state.profession);
-    formData.append("city", state.city);
-    formData.append("phone", state.phone);
-    formData.append("branch", state.branch);
-
-    axios.put(`http://localhost:5000/update/${id}`, formData).then((res) => {
-      console.log(res.data);
-      if (res.data.Status === "Success") {
-        console.log("Succeeded!");
-        // handleUpdate(res.data.UpdateData);
-        setFiles(
-          res.data.ImagePath
-            ? `http://localhost:5000/${res.data.ImagePath}`
-            : null
-        );
-      } else {
-        console.log("Failed!", res.data.Error);
-      }
-    });
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setState((prev) => ({
       ...prev,
       [name]: value,
     }));
-    // handleUpdate(state);
   };
   const handleFile = (e) => {
     const file = e.target.files[0];
     const fileName = e.target.value;
-    setState({ ...state, image: file, fileName: fileName });
-    setFiles(
-      file
-        ? URL.createObjectURL(file)
-        : `http://localhost:5000/images/${state.image}`
-    );
+    setState((prev) => ({
+      ...prev,
+      image: file || prev.image, // 이미지를 선택하지 않은 경우 현재 이미지를 그대로 사용
+      fileName: fileName,
+    }));
+
+    if (file) {
+      setFiles(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", state.name);
+    formData.append("profession", state.profession);
+    formData.append("city", state.city);
+    formData.append("phone", state.phone);
+    formData.append("branch", state.branch);
+
+    if (state.image) {
+      formData.append("image", state.image);
+    }
+
+    axios.put(`http://localhost:5000/update/${id}`, formData).then((res) => {
+      if (res.data.Status === "Success") {
+        // 이미지가 수정되었으면 새로운 이미지로 업데이트
+        setFiles(
+          res.data.ImagePath
+            ? `http://localhost:5000/${res.data.ImagePath}`
+            : null
+        );
+        toast.success("Employee successfully updated!");
+      } else {
+        console.log("Failed!", res.data.Error);
+      }
+
+      setTimeout(() => navigate("/"), 300);
+    });
   };
 
   return (
@@ -95,7 +99,7 @@ export default function UpdateEmployee() {
           type="file"
           id="image"
           name="file"
-          file={state.image}
+          file={state.image || ""}
           value={state.fileName || ""}
           onChange={handleFile}
         />

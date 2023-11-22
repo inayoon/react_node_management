@@ -3,7 +3,7 @@ form{
   flex-direction:column;
 }
 label{
-
+text-align:left;
 }
 .preview-image{
   width:300px;
