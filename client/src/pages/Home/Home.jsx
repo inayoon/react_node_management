@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
+import SearchBar from "../../components/SearchBar";
 import "./Home.css";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -8,24 +9,31 @@ import axios from "axios";
 export default function Home() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 10;
+  const [filteredData, setFilteredData] = useState([]);
+  const recordsPerPage = 5;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const records = data.slice(firstIndex, lastIndex);
-  const npage = Math.ceil(data.length / recordsPerPage);
+  const records = filteredData.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(filteredData.length / recordsPerPage);
   const numbers = [...Array(npage + 1).keys()].slice(1);
 
   const loadData = async () => {
     const response = await axios.get("http://localhost:5000/employees");
     setData(response.data);
+    setFilteredData(response.data);
   };
 
   useEffect(() => {
     loadData();
   }, []);
   const deleteContact = () => {};
+  const handleSearch = (filteredData) => {
+    setFilteredData(filteredData);
+    setCurrentPage(1);
+  };
   return (
     <div style={{ marginTop: "150px" }}>
+      <SearchBar data={data} onSearch={handleSearch} />
       <Link to="/addContact">
         <button className="btn btn-contact">Add Contact</button>
       </Link>
