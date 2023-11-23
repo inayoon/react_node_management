@@ -33,11 +33,12 @@ export default function Home() {
   };
   return (
     <div style={{ marginTop: "150px" }}>
-      <SearchBar data={data} onSearch={handleSearch} />
-      <Link to="/addContact">
-        <button className="btn btn-contact">Add Contact</button>
-      </Link>
-
+      <div className="search">
+        <SearchBar data={data} onSearch={handleSearch} />
+        <Link to="/addContact">
+          <button className="btn btn-contact">Add Employee</button>
+        </Link>
+      </div>
       <table className="styled-table">
         <thead>
           <tr>
