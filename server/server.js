@@ -52,9 +52,9 @@ app.get("/employees/:id", (req, res) => {
   });
 });
 
-app.post("/employees", upload.single("image"), (req, res) => {
+app.post("/add", upload.single("image"), (req, res) => {
   const { name, profession, city, phone, branch } = req.body;
-  const image = req.file.filename;
+  const image = req.file ? req.file.filename : req.body.image || "";
   const sqlInsert = "INSERT INTO EMPLOYEE VALUES  (null, ?, ?, ?, ?, ?,?)";
   // let img = "http://localhost:5000/image/" + image;
   db.query(

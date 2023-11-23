@@ -35,7 +35,7 @@ export default function Home() {
     <div style={{ marginTop: "150px" }}>
       <div className="search">
         <SearchBar data={data} onSearch={handleSearch} />
-        <Link to="/addContact">
+        <Link to="/add">
           <button className="btn btn-contact">Add Employee</button>
         </Link>
       </div>
@@ -83,9 +83,6 @@ export default function Home() {
                   >
                     Delete
                   </button>
-                  <Link to={`/view/${item.id}`}>
-                    <button className="btn btn-view">View</button>
-                  </Link>
                 </td>
               </tr>
             );

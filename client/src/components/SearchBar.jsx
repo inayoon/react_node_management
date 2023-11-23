@@ -4,10 +4,10 @@ import "./SearchBar.css";
 export default function SearchBar({ data, onSearch }) {
   const [bar, setBar] = useState("");
   const handleChange = (e) => {
-    const searchTerm = e.target.value.toLowerCase().trim();
-    setBar(searchTerm);
+    const searchName = e.target.value.toLowerCase().trim();
+    setBar(searchName);
     const filteredData = data.filter((d) =>
-      d.name.toLowerCase().includes(searchTerm)
+      d.name.toLowerCase().includes(searchName)
     );
     onSearch(filteredData);
   };

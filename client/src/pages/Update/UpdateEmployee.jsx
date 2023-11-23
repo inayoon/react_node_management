@@ -22,12 +22,16 @@ export default function UpdateEmployee() {
   console.log(state);
   useEffect(() => {
     axios.get(`http://localhost:5000/employees/${id}`).then((response) => {
-      setState(response.data[0]);
-      setFiles(
-        response.data[0].image
-          ? `http://localhost:5000/images/${response.data[0].image}`
-          : null
-      );
+      const employeeData = response.data[0];
+
+      if (employeeData) {
+        setState(employeeData);
+        setFiles(
+          employeeData.image
+            ? `http://localhost:5000/images/${employeeData.image}`
+            : null
+        );
+      }
     });
   }, [id]);
 
