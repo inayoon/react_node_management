@@ -52,6 +52,25 @@ app.get("/employees/:id", (req, res) => {
   });
 });
 
+app.delete("/employees", (req, res) => {
+  const { ids } = req.body;
+
+  if (!ids || !Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({ error: "Invalid input" });
+  }
+  const placeholders = ids.map(() => "?").join(",");
+  const sqlRemove = `DELETE FROM EMPLOYEE WHERE id IN (${placeholders})`;
+
+  db.query(sqlRemove, ids, (error, result) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Error deleting employees" });
+    }
+
+    return res.json({ message: "Employees deleted successfully" });
+  });
+});
+
 app.post("/add", upload.single("image"), (req, res) => {
   const { name, profession, city, phone, branch } = req.body;
   const image = req.file ? req.file.filename : req.body.image || "";

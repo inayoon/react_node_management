@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-// import "./UpdateEmployee.css";
+import "../Update/UpdateEmployee.css";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const initialState = {
   name: "",

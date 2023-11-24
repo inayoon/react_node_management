@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
 import "./Home.css";
-import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function Home() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
   const recordsPerPage = 5;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
@@ -31,6 +30,28 @@ export default function Home() {
     setFilteredData(filteredData);
     setCurrentPage(1);
   };
+  const handleChange = (id) => {
+    if (selectedEmployees.includes(id)) {
+      setSelectedEmployees(
+        selectedEmployees.filter((selectedId) => selectedId !== id)
+      );
+    } else {
+      setSelectedEmployees([...selectedEmployees, id]);
+    }
+  };
+  const handleAllDelete = async () => {
+    if (selectedEmployees.length > 0) {
+      try {
+        await axios.delete("http://localhost:5000/employees", {
+          data: { ids: selectedEmployees },
+        });
+        loadData();
+        setSelectedEmployees([]);
+      } catch (error) {
+        console.error("Error deleting employees", error);
+      }
+    }
+  };
   return (
     <div style={{ marginTop: "150px" }}>
       <div className="search">
@@ -38,10 +59,14 @@ export default function Home() {
         <Link to="/add">
           <button className="btn btn-contact">Add Employee</button>
         </Link>
+        <button className="btn btn-delete-2" onClick={handleAllDelete}>
+          Delete more than one Employees
+        </button>
       </div>
       <table className="styled-table">
         <thead>
           <tr>
+            <th style={{ textAlign: "center" }}>Checked</th>
             <th style={{ textAlign: "center" }}>No.</th>
             <th style={{ textAlign: "center" }}>profile</th>
             <th style={{ textAlign: "center" }}>Name</th>
@@ -56,7 +81,14 @@ export default function Home() {
             const uniqueIndex = firstIndex + index + 1;
             return (
               <tr key={item.id}>
-                <th scope="row">{uniqueIndex}</th>
+                <td>
+                  <input
+                    type="checkbox"
+                    onChange={() => handleChange(item.id)}
+                    checked={selectedEmployees.includes(item.id)}
+                  />
+                </td>
+                <td scope="row">{uniqueIndex}</td>
                 <td>
                   <img
                     src={

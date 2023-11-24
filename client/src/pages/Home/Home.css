@@ -65,6 +65,12 @@
 .btn-delete{
   background-color: #f35535ed;
 }
+.btn-delete-2{
+  background-color: #f35535ed;
+  margin-bottom: 16px;
+  margin-left: 10px;
+  padding: 8px 10px;
+}
 
 .btn-view{
   background-color: #e7e7e7;
