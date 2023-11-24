@@ -47,11 +47,15 @@ export default function Home() {
     }
   };
   const handleAllDelete = async () => {
-    if (selectedEmployees.length > 0) {
+    if (
+      selectedEmployees.length > 0 &&
+      window.confirm("Are you sure you want to delete these employees?")
+    ) {
       try {
         await axios.delete("http://localhost:5000/employees", {
           data: { ids: selectedEmployees },
         });
+        toast.success("employees deleted successfully");
         loadData();
         setSelectedEmployees([]);
       } catch (error) {
