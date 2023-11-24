@@ -64,7 +64,7 @@ export default function Home() {
     }
   };
   return (
-    <div style={{ marginTop: "150px" }}>
+    <div style={{ marginTop: "60px" }}>
       <div className="search">
         <SearchBar data={data} onSearch={handleSearch} />
         <Link to="/add">
