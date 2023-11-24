@@ -66,8 +66,19 @@ app.delete("/employees", (req, res) => {
       console.log(error);
       return res.status(500).json({ error: "Error deleting employees" });
     }
-
     return res.json({ message: "Employees deleted successfully" });
+  });
+});
+
+app.delete("/employees/:id", (req, res) => {
+  const { id } = req.params;
+  const sqlRemove = "DELETE FROM EMPLOYEE WHERE id = ?";
+  db.query(sqlRemove, id, (error, result) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Error deleting employee" });
+    }
+    return res.json({ message: "Employee deleted successfully" });
   });
 });
 

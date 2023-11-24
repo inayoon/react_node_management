@@ -41,13 +41,7 @@ export default function AddEmployee() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !state.name ||
-      !state.profession ||
-      !state.city ||
-      !state.branch ||
-      !state.phone
-    ) {
+    if (!state.name || !state.profession || !state.branch || !state.phone) {
       toast.error("Please provide value into each input field");
     } else {
       const formData = new FormData();
@@ -108,12 +102,12 @@ export default function AddEmployee() {
           value={state.name || ""}
           onChange={handleInputChange}
         />
-        <label htmlFor="city">City</label>
+        <label htmlFor="title">Profession</label>
         <input
           type="text"
-          id="city"
-          name="city"
-          value={state.city || ""}
+          id="title"
+          name="profession"
+          value={state.profession || ""}
           onChange={handleInputChange}
         />
         <label htmlFor="branch">Branch</label>

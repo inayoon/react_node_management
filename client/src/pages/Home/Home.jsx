@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
+import { toast } from "react-toastify";
 import "./Home.css";
 import axios from "axios";
 
@@ -25,7 +26,13 @@ export default function Home() {
   useEffect(() => {
     loadData();
   }, []);
-  const deleteContact = () => {};
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this employee?")) {
+      axios.delete(`http://localhost:5000/employees/${id}`);
+      toast.success("employee deleted successfully");
+      setTimeout(() => loadData(), 300);
+    }
+  };
   const handleSearch = (filteredData) => {
     setFilteredData(filteredData);
     setCurrentPage(1);
@@ -70,7 +77,7 @@ export default function Home() {
             <th style={{ textAlign: "center" }}>No.</th>
             <th style={{ textAlign: "center" }}>profile</th>
             <th style={{ textAlign: "center" }}>Name</th>
-            <th style={{ textAlign: "center" }}>City</th>
+            <th style={{ textAlign: "center" }}>Profession</th>
             <th style={{ textAlign: "center" }}>Branch</th>
             <th style={{ textAlign: "center" }}>Contact</th>
             <th style={{ textAlign: "center" }}>Action</th>
@@ -101,7 +108,7 @@ export default function Home() {
                   />
                 </td>
                 <td>{item.name}</td>
-                <td>{item.city}</td>
+                <td>{item.profession}</td>
                 <td>{item.branch}</td>
                 <td>{item.phone}</td>
                 <td>
@@ -110,8 +117,7 @@ export default function Home() {
                   </Link>
                   <button
                     className="btn btn-delete"
-                    onClick={() => deleteContact(item.id)}
-                    dd
+                    onClick={() => handleDelete(item.id)}
                   >
                     Delete
                   </button>
