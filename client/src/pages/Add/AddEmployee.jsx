@@ -30,8 +30,7 @@ export default function AddEmployee() {
     const fileName = e.target.value;
     setState((prev) => ({
       ...prev,
-      image: file || prev.image, // 이미지를 선택하지 않은 경우 현재 이미지를 그대로 사용
-      fileName: fileName,
+      image: file || prev.image,
     }));
 
     if (file) {
@@ -57,7 +56,6 @@ export default function AddEmployee() {
 
       axios.post("http://localhost:5000/add", formData).then((res) => {
         if (res.data.Status === "Success") {
-          // 이미지가 수정되었으면 새로운 이미지로 업데이트
           setFiles(
             res.data.ImagePath
               ? `http://localhost:5000/${res.data.ImagePath}`

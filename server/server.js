@@ -2,7 +2,6 @@ import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import multer from "multer";
-import path from "path";
 import fs from "fs";
 
 const app = express();
@@ -86,7 +85,6 @@ app.post("/add", upload.single("image"), (req, res) => {
   const { name, profession, city, phone, branch } = req.body;
   const image = req.file ? req.file.filename : req.body.image || "";
   const sqlInsert = "INSERT INTO EMPLOYEE VALUES  (null, ?, ?, ?, ?, ?,?)";
-  // let img = "http://localhost:5000/image/" + image;
   db.query(
     sqlInsert,
     [name, profession, city, phone, branch, image],
@@ -100,7 +98,7 @@ app.post("/add", upload.single("image"), (req, res) => {
 app.put("/update/:id", upload.single("image"), (req, res) => {
   const { id } = req.params;
   const { name, profession, city, phone, branch } = req.body;
-  const image = req.file ? req.file.filename : req.body.image || ""; // 이미지가 전송되지 않은 경우 이전 이미지 유지
+  const image = req.file ? req.file.filename : req.body.image || "";
 
   const sqlUpdate =
     "UPDATE EMPLOYEE SET name = ?, profession = ?, city = ?, phone = ?, branch = ?, image = ? WHERE id = ?";
@@ -115,10 +113,6 @@ app.put("/update/:id", upload.single("image"), (req, res) => {
       res.json({ Status: "Success", ImagePath: image });
     }
   );
-});
-
-app.get("/", (req, res) => {
-  res.json("Hello world, this is backend server");
 });
 
 app.listen(5000, () => {

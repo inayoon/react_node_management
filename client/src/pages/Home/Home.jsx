@@ -68,10 +68,10 @@ export default function Home() {
       <div className="search">
         <SearchBar data={data} onSearch={handleSearch} />
         <Link to="/add">
-          <button className="btn btn-contact">Add Employee</button>
+          <button className="btn btn-add">Add Employee</button>
         </Link>
         <button className="btn btn-delete-2" onClick={handleAllDelete}>
-          Delete more than one Employees
+          Delete Selected Employees
         </button>
       </div>
       <table className="styled-table">

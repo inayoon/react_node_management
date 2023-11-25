@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Poppins:wght@500&display=swap');
 .root{
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 body {
   margin: 0;
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
