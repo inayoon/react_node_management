@@ -10,15 +10,15 @@ This project is an application designed to manage employee information. It allow
 
 | 1.Main Page                                                                                                                                | 2.Search Employee                                                                                                                            |
 | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="450" alt="home_ms" src="https://github.com/inayoon/employee_management/assets/100747899/17ad3a5b-8beb-4849-ac13-c448be102dab"> | <img width="450" alt="search_ms" src="https://github.com/inayoon/employee_management/assets/100747899/896ad752-0b5a-4f09-8f28-30ad7599242e"> |
+| <img width="450" alt="home_ms" src="https://github.com/inayoon/react_node_management/assets/100747899/06fd89fd-e114-4998-825a-a331a07039bc"> | <img width="450" alt="search_ms" src="https://github.com/inayoon/react_node_management/assets/100747899/e67ebc94-6b06-4433-8725-6b8cf51a2376"> |
 
 | 3. Add Employee                                                                                                                           | 4.Edit Employee                                                                                                                            |
 | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| <img width="450" alt="add_md" src="https://github.com/inayoon/employee_management/assets/100747899/f065bfd0-0a41-409c-aa49-0bdc64909f2b"> | <img width="492" alt="edit_ms" src="https://github.com/inayoon/employee_management/assets/100747899/f8e4a422-d935-4e97-8ec3-5b745cdbd4eb"> |
+| <img width="450" alt="add_md" src="https://github.com/inayoon/react_node_management/assets/100747899/cd9c4515-4305-4531-bdd0-624833f360b6"> | <img width="450" alt="edit_ms" src="https://github.com/inayoon/react_node_management/assets/100747899/bf46af8f-5e96-498c-a7cd-a5d88dacdb8a"> |
 
 | 5.Delete Selected Employees                                                                                                                           |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="450" alt="checked_deleted_ms" src="https://github.com/inayoon/employee_management/assets/100747899/547f94b3-29e1-48d4-a134-101444123c7a"> |
+| <img width="450" alt="checked_deleted_ms" src="https://github.com/inayoon/react_node_management/assets/100747899/57c1cc42-048d-4f94-8c86-15dca9fa88c7"> |
 
 ### 1. Home page - Pagination Feature
 
@@ -219,4 +219,4 @@ export default function Home() {
 
 ## User Flow Diagram
 
-<img width="383" alt="user_flow_ms" src="https://github.com/inayoon/employee_management/assets/100747899/39ea86ca-527a-41ee-bed6-f535419218a0">
+<img width="400" alt="user_flow_ms" src="https://github.com/inayoon/react_node_management/assets/100747899/0cfa7d6d-f762-4ade-9df0-19565184bdc9">
