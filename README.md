@@ -1,7 +1,8 @@
 # Employee Management Program
 
 
-![ezgif com-crop](https://github.com/inayoon/react_node_management/assets/100747899/e3a12efd-f1af-42ef-b5ba-6b27bd56e4a1)
+![ezgif com-video-to-gif (1)](https://github.com/inayoon/react_node_management/assets/100747899/b73d222a-8feb-4780-9f71-eca0194c9626)
+
 
 
 This project is an application designed to manage employee information. It allows users to view and update employee details such as name, profession, branch, contact information, and profile image. The information can be added, modified, or deleted, and the changes are synchronized with the database whenever any update is made.
