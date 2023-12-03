@@ -1,7 +1,9 @@
 # Employee Management Program
 
 
-![ezgif com-video-to-gif (1)](https://github.com/inayoon/react_node_management/assets/100747899/b73d222a-8feb-4780-9f71-eca0194c9626)
+![2023-12-02 23;22;39](https://github.com/inayoon/react_node_management/assets/100747899/03f553d5-6458-4b02-9476-919b79f876ed)
+
+
 
 
 
